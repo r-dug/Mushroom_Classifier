@@ -77,4 +77,10 @@ To kill it, simple run a command like:
 
 ## Results
 
-### On a dataset with 
+### Training class labels
+
+![!class training](/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_category_training_lr=1e-3.png)
+
+### Open up the next fully connected layer for training
+
+![!last 2 layers](assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_last_2_layers:_lr=1e-4.png)
