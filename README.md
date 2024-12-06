@@ -37,13 +37,7 @@ It is critical in supervised machine learning that the labeled data is not only 
 ![Finger obstruction!](/assets/photos/meh_photos/finger.jpg)
 
 *This observer posted a bunch of photos of a person examining the mushroom*
-![Finger obstruction!](/assets/photos/meh_photos/assets/photos/meh_photos/dataset_corruption.png)
-
-*A finger is obstructing the view of the mushroom to too substantial a degree*
-![Finger obstruction!](/assets/photos/meh_photos/finger.jpg)
-
-*A finger is obstructing the view of the mushroom to too substantial a degree*
-![Finger obstruction!](/assets/photos/meh_photos/finger.jpg)
+![Finger obstruction!](/assets/photos/meh_photos/dataset_corruption.png)
 
 *Although potentially VERY useful for other purposes, microscopy photos wouldn't help classify images taken on a phone*
 ![microscopy!](/assets/photos/meh_photos/microsopy.jpg)
