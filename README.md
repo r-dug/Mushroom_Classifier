@@ -11,21 +11,70 @@ To fine tune these models, I have made various attempts. Initially, I simply loo
 
 ### Python
 
+There exists a requirements.txt file for this repository. It is generated with pipreqs. A virtual environment is my recommendation. the command 'pip install .' can be used to install all of the requirements.
+
 ### Settings / Config
+
+I used a simple python file to store the config vars and import all from it in subsequent python files.
 
 ### CUDA / CUDNN
 
+If you have a CUDA capable GPU (HIGHLY recommended), follow the [CUDA installation instructions](https://docs.nvidia.com/cuda/cuda-quick-start-guide/) for your system. Also install cuDNN, [instructions here](https://docs.nvidia.com/deeplearning/cudnn/archives/cudnn-860/install-guide/index.html).
 
 ## Datasets
 
 ### Hugging Face: direct
 
+From Hugging Face, I did use a dataset that I found insufficient. Although I would like to site the source, I can not locate it at this time and removed it from my file system to conserve space.
+
 ### iNaturalist: curated
+
+I used the following [iNaturalist database information](https://github.com/inaturalist/inaturalist-open-data/tree/main) to compile a more robust dataset to test training, based on the hypothesis that the previously mentioned Hugging Face dataset was insufficient. I will not belabor the details of how exactly I went about this, but reach out directly if you would like to discuss ideas. It is important to note, however, that there are only two taxonomic subcategories of the kingdom of fungi I focused on - Division [Basidiomycota](https://en.wikipedia.org/wiki/Basidiomycota) and Phylum [Ascomycota](https://en.wikipedia.org/wiki/Ascomycota)
+
+It is critical in supervised machine learning that the labeled data is not only sufficient in quantity, but also in quality. I have not yet come up with an automated approach to using iNaturalist's open-source data to ensuring the quality of the images. Although I only used "research" quality observations, some of the photos associated with those observations have issues shown in the following examples. It was tedious and time-consuming to manually look through the photos and delete offending photos, but I am considering an approach to automate this process of pruning the data with decent classifier.
+
+*A finger is obstructing the view of the mushroom to too substantial a degree*
+![Finger obstruction!](/assets/photos/meh_photos/finger.jpg)
+
+*This observer posted a bunch of photos of a person examining the mushroom*
+![Finger obstruction!](/assets/photos/meh_photos/assets/photos/meh_photos/dataset_corruption.png)
+
+*A finger is obstructing the view of the mushroom to too substantial a degree*
+![Finger obstruction!](/assets/photos/meh_photos/finger.jpg)
+
+*A finger is obstructing the view of the mushroom to too substantial a degree*
+![Finger obstruction!](/assets/photos/meh_photos/finger.jpg)
+
+*Although potentially VERY useful for other purposes, microscopy photos wouldn't help classify images taken on a phone*
+![microscopy!](/assets/photos/meh_photos/microsopy.jpg)
+
+*this was a common occurrence...*
+![environment!](/assets/photos/meh_photos/too_many_scenery.png)
+
+*It might be useful for someone in the field to understand the typical environment A mushroom calls home, but it is not useful for image classification*
+![environment!](/assets/photos/meh_photos/scenery.jpg)
+
+*Although we want photos taken at a variety of distances, this might be a bit TOO far...*
+![too far!](/assets/photos/meh_photos/too_far.jpg)
 
 ## Training
 
+I used tensorflow to modify the models and retrain them to classify the species of mushrooms of interest. 
+
 ### Running on a GPU
 
-A lot of the time, memory can critically impact training. to check the memory consumption on your GPU, run the command 'nvidia-smi'. look for processes consuming a lot of memory (like training a deep neural network *wink wink*). These processes can remain in memory for the GPU. Fortunately, a very simple troubleshooting step is to simply kill the process. In linux, the command to kill the process by its process Id (listed in the nvidia-smi output) is 'kill -9 PID' where PID is the process id; for example, 
+A lot of the time, memory can critically impact training. to check the memory consumption on your GPU, run the command 'nvidia-smi'. look for processes consuming a lot of memory (like training a deep neural network *wink wink*). These processes can remain in memory for the GPU. Fortunately, a very simple troubleshooting step is to simply kill the process. In linux, the command to kill the process by its process Id (listed in the nvidia-smi output) is 'kill -9 PID' where PID is the process id; for example:
+Below is the return of an nvidia-smi command
+
+![nvidia-smi return!](/assets/photos/smi_return.png)
+
+Notice that the following process is consuming a lot of resources:
+ 0   N/A  N/A    147886      C   python3                                      2128MiB 
+
+To kill it, simple run a command like:
+
+![kill process!](/assets/photos/kill_cmd.png)
 
 ## Results
+
+### On a dataset with 

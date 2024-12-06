@@ -44,7 +44,7 @@ except RuntimeError as e:
 
 # callback configurations
 plateau = ReduceLROnPlateau(    monitor="val_loss", mode="min", patience=5,
-                                min_lr=1e-8, factor=0.3, min_delta=0.01,
+                                min_lr=1e-7, factor=0.3, min_delta=0.01,
                                 verbose=1)
 
 checkpointer = ModelCheckpoint( filepath=CHECKPOINT_PATH, 
@@ -59,7 +59,7 @@ convergence = EarlyStopping(    monitor="val_accuracy",
                                 mode="max",
                                 baseline=None,
                                 restore_best_weights=True,
-                                start_from_epoch=15,)
+                                start_from_epoch=15)
 
 # datasets
 train_data = image_dataset_from_directory(DATASET_DIR,
@@ -94,8 +94,9 @@ except Exception as e:
 
 n_classes = len(class_names)
 
-training_util.show_image_samples(train_data, class_names)
-training_util.show_image_samples(val_data, class_names)
+if DEBUG == True:
+    training_util.show_image_samples(train_data, class_names)
+    training_util.show_image_samples(val_data, class_names)
 
 rescale = training_util.rescaler()
 augmenter = training_util.data_augmenter()
@@ -109,9 +110,9 @@ if BASE_MODEL == "ResNet50":
 train_data = train_data.map(
     lambda x, y: (augmenter(x, training=True), y),
     )
-
-training_util.show_image_samples(train_data, class_names)
-training_util.show_image_samples(val_data, class_names)
+if DEBUG == True:
+    training_util.show_image_samples(train_data, class_names)
+    training_util.show_image_samples(val_data, class_names)
 
 train_data = training_util.configure_for_performance(train_data, BATCH_SIZE=BATCH_SIZE, AUTOTUNE=AUTOTUNE)
 val_data = training_util.configure_for_performance(val_data, BATCH_SIZE=BATCH_SIZE, AUTOTUNE=AUTOTUNE)
@@ -135,6 +136,8 @@ x = Dense(512, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.
 x = Dense(n_classes, activation='softmax')(x) # for new output
 model = Model(inputs, x)
 
+if DEBUG == True:
+    training_util.show_summary(base, model)
 # # optional to get weights from checkpoint file. commented out for fresh tune.
 # model.load_weights(CHECKPOINT_PATH)
 

@@ -23,12 +23,12 @@ def show_summary(base, model):
     print("\n\n***REVISED MODEL:***\n\n")
     model.summary()
 
-def plot_performance(phase:str, training_results, MODEL:str) -> None:
+def plot_performance(phase:str, training_results:tf.keras.callbacks.History, MODEL:str) -> None:
+    '''A simple logging function for the performance'''
     acc = [0.] + training_results.history['accuracy']
     val_acc = [0.] + training_results.history['val_accuracy']
     loss = training_results.history['loss']
     val_loss = training_results.history['val_loss']
-    '''A simple logging function for the performance'''
     plt.figure(figsize=(8, 8))
     plt.subplot(2, 1, 1)
     plt.plot(acc, label='Training Accuracy')
@@ -42,7 +42,7 @@ def plot_performance(phase:str, training_results, MODEL:str) -> None:
     plt.plot(val_loss, label='Validation Loss')
     plt.legend(loc='upper right')
     plt.ylabel('Cross Entropy')
-    plt.ylim([0,2])
+    plt.ylim([0,max(max(val_loss), max(loss))])
     plt.title(f'Training and Validation Performance')
     plt.xlabel('epoch')
     plt.savefig(f"./training_performance/{MODEL}_{phase}.png")
