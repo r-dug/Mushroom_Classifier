@@ -34,21 +34,27 @@ I used the following [iNaturalist database information](https://github.com/inatu
 It is critical in supervised machine learning that the labeled data is not only sufficient in quantity, but also in quality. I have not yet come up with an automated approach to using iNaturalist's open-source data to ensuring the quality of the images. Although I only used "research" quality observations, some of the photos associated with those observations have issues shown in the following examples. It was tedious and time-consuming to manually look through the photos and delete offending photos, but I am considering an approach to automate this process of pruning the data with decent classifier.
 
 *A finger is obstructing the view of the mushroom to too substantial a degree*
+
 ![Finger obstruction!](/assets/photos/meh_photos/finger.jpg)
 
 *This observer posted a bunch of photos of a person examining the mushroom*
+
 ![Finger obstruction!](/assets/photos/meh_photos/dataset_corruption.png)
 
 *Although potentially VERY useful for other purposes, microscopy photos wouldn't help classify images taken on a phone*
+
 ![microscopy!](/assets/photos/meh_photos/microsopy.jpg)
 
 *this was a common occurrence...*
+
 ![environment!](/assets/photos/meh_photos/too_many_scenery.png)
 
 *It might be useful for someone in the field to understand the typical environment A mushroom calls home, but it is not useful for image classification*
+
 ![environment!](/assets/photos/meh_photos/scenery.jpg)
 
 *Although we want photos taken at a variety of distances, this might be a bit TOO far...*
+
 ![too far!](/assets/photos/meh_photos/too_far.jpg)
 
 ## Training
