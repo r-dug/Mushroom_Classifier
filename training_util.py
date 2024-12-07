@@ -46,6 +46,7 @@ def plot_performance(phase:str, training_results:tf.keras.callbacks.History, MOD
     plt.ylim([0,max(max(val_loss), max(loss))])
     plt.title(f'Training and Validation Performance')
     plt.xlabel('epoch')
+    plt.suptitle(phase, fontsize=16)
     plt.savefig(os.path.join(f"{RESULTS_DIR}",f"{MODEL_NAME}_{phase}.png"))
 
 # dataset configurations

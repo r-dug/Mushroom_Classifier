@@ -61,11 +61,45 @@ It is critical in supervised machine learning that the labeled data is not only 
 
 I used tensorflow to modify the models and retrain them to classify the species of mushrooms of interest. 
 
+### Data Preparation
+
+Tensorflow provides convenient methods to perform data preparation. Essentially, these are neural network layers used to mutate input tensors. Simple lambda functions can be used to apply these layers as a data preparation step.  
+
+- Resizing - images must be resized to dimensions [224, 244] pixels
+
+- Rescaling - RGB values for pixels are initially represented as values between 0 and 255. Some models preprocess those values to values between -1 and 1 (such as MobileNetV3). Others require a preprocessing step to normalize the pixel values. 
+
+### Data Augmentation
+
+Tensorflow also provides convenient methods for data augmentation. Again, these are neural network layers. Tensorflow's documentation recommends creating a sequential model and processing the input tensors through a lambda function.
+
+#### Randomized Operations
+
+Below are links to documentation for the tensorflow data augmentation layers I used.
+
+- [RandomFlip](https://www.tensorflow.org/api_docs/python/tf/keras/layers/RandomFlip)
+
+- [RandomRotation](https://www.tensorflow.org/api_docs/python/tf/keras/layers/RandomRotation)
+
+- [RandomTranslation](https://www.tensorflow.org/api_docs/python/tf/keras/layers/RandomTranslation)
+
+- [RandomZoom](https://www.tensorflow.org/api_docs/python/tf/keras/layers/RandomZoom)
+
+- [RandomContrast](https://www.tensorflow.org/api_docs/python/tf/keras/layers/RandomContrast)
+
+- [RandomBrightness](https://www.tensorflow.org/api_docs/python/tf/keras/layers/RandomBrightness)
+
 ### Training Steps
 
 [1] Class labels: output layer
 
+- This step is used to retrain the final output layer of the neural network.
+
+- The rest of the network is used as a feature detector. The parameters of these layers are not updated during training; i.e. they are "frozen".
+
 [2] Additional fully connected layer
+
+
 
 [3] Deeper hidden layers 
 
