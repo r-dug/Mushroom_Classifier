@@ -13,8 +13,8 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from tensorflow.keras.layers import GlobalMaxPooling2D, Dense, BatchNormalization, Dropout, Input
-if BASE_MODEL == "ResNet50":
-    from tensorflow.keras.applications import ResNet50
+if BASE_MODEL == "ResNet50V2":
+    from tensorflow.keras.applications import ResNet50V2
 if BASE_MODEL == "MobileNetV3":
     from tensorflow.keras.applications import MobileNetV3Large
 if BASE_MODEL == "Xception":
@@ -101,7 +101,7 @@ if DEBUG == True:
 rescale = training_util.rescaler()
 augmenter = training_util.data_augmenter()
 
-if BASE_MODEL == "ResNet50": 
+if BASE_MODEL == "ResNet50V2": 
     augmenter.add(rescale.layers[0])
     val_data = train_data.map(
         lambda x, y: (rescale(x, training=True), y),
@@ -118,8 +118,8 @@ train_data = training_util.configure_for_performance(train_data, BATCH_SIZE=BATC
 val_data = training_util.configure_for_performance(val_data, BATCH_SIZE=BATCH_SIZE, AUTOTUNE=AUTOTUNE)
 
 # starting with the MobileNetV3, mofidy the layers 
-if BASE_MODEL == "ResNet50":
-    base = ResNet50( input_shape=INPUT_SHAPE, weights="imagenet", include_top=False)
+if BASE_MODEL == "ResNet50V2":
+    base = ResNet50V2( input_shape=INPUT_SHAPE, weights="imagenet", include_top=False)
 elif BASE_MODEL == "MobileNetV3":
     base = MobileNetV3Large( input_shape=INPUT_SHAPE, weights="imagenet", include_top=False)
 elif BASE_MODEL == "Xception":
@@ -157,7 +157,7 @@ training_results = model.fit(   train_data,
                                 batch_size=BATCH_SIZE
                                 )
 try:
-    training_util.plot_performance(phase="category training: lr=1e-3", 
+    training_util.plot_performance(phase="class_labels_lr_1e-3", 
                                    MODEL=MODEL_NAME,
                                    training_results=training_results)
     model.save(TF_MODEL_PATH)
@@ -181,7 +181,7 @@ training_results = model.fit(   train_data,
                                 )
 
 try:
-    training_util.plot_performance(phase="last 2 layers: lr=1e-4", 
+    training_util.plot_performance(phase="last_2_layers_lr_1e-4", 
                                    MODEL=MODEL_NAME,
                                    training_results=training_results)
     model.save(TF_MODEL_PATH)
@@ -205,7 +205,7 @@ training_results = model.fit(   train_data,
                                 )
 
 try:
-    training_util.plot_performance(phase="whole network: lr=1e-6", 
+    training_util.plot_performance(phase="whole_network_lr_1e-6", 
                                    MODEL=MODEL_NAME,
                                    training_results=training_results)
     model.save(TF_MODEL_PATH)

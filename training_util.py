@@ -2,6 +2,7 @@ import tensorflow.keras.layers as tfl
 import matplotlib.pyplot as plt
 from datetime import datetime
 import tensorflow as tf
+import os
 from config import *
 
 def show_image_samples(ds:tf.data.Dataset, class_names:list[str]):
@@ -45,7 +46,7 @@ def plot_performance(phase:str, training_results:tf.keras.callbacks.History, MOD
     plt.ylim([0,max(max(val_loss), max(loss))])
     plt.title(f'Training and Validation Performance')
     plt.xlabel('epoch')
-    plt.savefig(f"./training_performance/{MODEL}_{phase}.png")
+    plt.savefig(os.path.join(f"{RESULTS_DIR}",f"{MODEL_NAME}_{phase}.png"))
 
 # dataset configurations
 def configure_for_performance(ds:tf.data.Dataset, BATCH_SIZE:tuple[int,int], AUTOTUNE)->None:
@@ -55,9 +56,11 @@ def configure_for_performance(ds:tf.data.Dataset, BATCH_SIZE:tuple[int,int], AUT
   ds = ds.prefetch(buffer_size=AUTOTUNE).shuffle(buffer_size=1000).cache()
   return ds
 
+# rescaling (not relevant for all models, but rescales pixel vals from (0,255) to (-1,1) range)
 def rescaler() ->tf.keras.Sequential:
     rescaler = tf.keras.Sequential([tf.keras.layers.Rescaling(scale=1./127.5)])
     return rescaler
+
 # augmentation layer
 def data_augmenter() -> tf.keras.Sequential:
     '''
@@ -67,13 +70,13 @@ def data_augmenter() -> tf.keras.Sequential:
     '''
     augmenter = tf.keras.Sequential([ 
     tfl.RandomFlip("horizontal and vertical"),
-    tfl.RandomRotation(     factor = 0.3, 
+    tfl.RandomRotation(     factor = 0.2, 
                             fill_mode='nearest'),
-    tfl.RandomTranslation(  height_factor = 0.1,
-                            width_factor = 0.1,
+    tfl.RandomTranslation(  height_factor = 0.05,
+                            width_factor = 0.05,
                             fill_mode = "nearest",
                             interpolation = "nearest"),
-    tf.keras.layers.RandomZoom(0.1),
+    tf.keras.layers.RandomZoom(0.05),
     tf.keras.layers.RandomContrast(0.1, name="rand_contrast"),
     tf.keras.layers.RandomBrightness(0.1)
     ])

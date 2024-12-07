@@ -15,7 +15,7 @@ There exists a requirements.txt file for this repository. It is generated with p
 
 ### Settings / Config
 
-I used a simple python file to store the config vars and import all from it in subsequent python files.
+I used a simple python file to store the config vars and import that in subsequent python files.
 
 ### CUDA / CUDNN
 
@@ -61,6 +61,14 @@ It is critical in supervised machine learning that the labeled data is not only 
 
 I used tensorflow to modify the models and retrain them to classify the species of mushrooms of interest. 
 
+### Training Steps
+
+[1] Class labels: output layer
+
+[2] Additional fully connected layer
+
+[3] Deeper hidden layers 
+
 ### Running on a GPU
 
 A lot of the time, memory can critically impact training. to check the memory consumption on your GPU, run the command 'nvidia-smi'. look for processes consuming a lot of memory (like training a deep neural network *wink wink*). These processes can remain in memory for the GPU. Fortunately, a very simple troubleshooting step is to simply kill the process. In linux, the command to kill the process by its process Id (listed in the nvidia-smi output) is 'kill -9 PID' where PID is the process id; for example:
@@ -77,10 +85,13 @@ To kill it, simple run a command like:
 
 ## Results
 
-### Training class labels
+### MobileNetV3
 
 ![!class training](/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_category_training_lr=1e-3.png)
 
-### Open up the next fully connected layer for training
-
 ![!last 2 layers](assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_last_2_layers:_lr=1e-4.png)
+
+### ResNet50_V2
+
+
+### Xception
