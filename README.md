@@ -93,9 +93,9 @@ Below are links to documentation for the tensorflow data augmentation layers I u
 
 1. Class labels: output layer
 
-- This step is used to retrain the final output layer of the neural network.
+    - This step is used to retrain the final output layer of the neural network.
 
-- The rest of the network is used as a feature detector. The parameters of these layers are not updated during training; i.e. they are "frozen".
+    - The rest of the network is used as a feature detector. The parameters of these layers are not updated during training; i.e. they are "frozen".
 
 2. Additional fully connected layer
 
