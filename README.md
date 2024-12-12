@@ -89,6 +89,65 @@ Below are links to documentation for the tensorflow data augmentation layers I u
 
 - [RandomBrightness](https://www.tensorflow.org/api_docs/python/tf/keras/layers/RandomBrightness)
 
+### Callbacks
+
+Callbacks are used in training to either preserve progress or halt training in the event of plateaus. Tensorflow has implementations for various callbacks. Below are the ones I used, linking the tensorflow documentation, a description (from tensorflow) of their general purpose, and my reasoning for setting the arguments as I did.
+
+- [ReduceLROnPlateau](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ReduceLROnPlateau)
+
+    > Reduce learning rate when a metric has stopped improving.
+
+    - monitor="val_loss" 
+    Validation in training is used to assess how well training generalizes to the data 
+    - mode="min"
+
+    - patience=5
+
+    - min_lr=1e-7
+
+    - factor=0.3
+
+    - min_delta=0.01
+
+
+- [ModelCheckpoint](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint)
+
+    > Callback to save the Keras model or model weights at some frequency.
+
+    - filepath=CHECKPOINT_PATH
+
+    - verbose=1
+
+    - save_best_only=True
+
+    - monitor="val_accuracy"
+
+    - mode="max"
+
+    - save_weights_only=True
+
+
+- [EarlyStopping](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/EarlyStopping)
+
+    > Stop training when a monitored metric has stopped improving.
+
+    - monitor="val_accuracy"
+
+    - min_delta=0e-5
+
+    - patience=7
+
+    - verbose=1
+
+    - mode="max"
+
+    - baseline=None
+
+    - restore_best_weights=True
+
+    - start_from_epoch=15
+
+
 ### Training Steps
 
 1. Class labels: output layer
@@ -102,6 +161,8 @@ Below are links to documentation for the tensorflow data augmentation layers I u
 
 
 3. Deeper hidden layers 
+
+
 
 ### Running on a GPU
 
@@ -121,11 +182,18 @@ To kill it, simple run a command like:
 
 ### MobileNetV3
 
-![!class training](/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_category_training_lr=1e-3.png)
+![!phase 1](/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_phase_1_.png)
 
-![!last 2 layers](assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_last_2_layers:_lr=1e-4.png)
+![!phase 2](/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_phase_2_.png)
+
+![!phase 3](/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_phase_3_.png)
 
 ### ResNet50_V2
 
+![!class training](/assets/photos/training_performance/mobileCelia_0_0_1_ResNet50V2_class_labels_lr_1e-3.png)
+
+![!last 2 layers](/assets/photos/training_performance/mobileCelia_0_0_1_ResNet50V2_last_2_layers_lr_1e-4.png)
 
 ### Xception
+
+
