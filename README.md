@@ -35,27 +35,27 @@ It is critical in supervised machine learning that the labeled data is not only 
 
 *A finger is obstructing the view of the mushroom to too substantial a degree*
 
-![Finger obstruction!](/Mushroom_Classifier/assets/photos/meh_photos/finger.jpg)
+![Finger obstruction!](/assets/photos/meh_photos/finger.jpg)
 
 *This observer posted a bunch of photos of a person examining the mushroom*
 
-![Finger obstruction!](/Mushroom_Classifier/assets/photos/meh_photos/dataset_corruption.png)
+![Finger obstruction!](/assets/photos/meh_photos/dataset_corruption.png)
 
 *Although potentially VERY useful for other purposes, microscopy photos wouldn't help classify images taken on a phone*
 
-![microscopy!](/Mushroom_Classifier/assets/photos/meh_photos/microsopy.jpg)
+![microscopy!](/assets/photos/meh_photos/microsopy.jpg)
 
 *this was a common occurrence...*
 
-![environment!](/Mushroom_Classifier/assets/photos/meh_photos/too_many_scenery.png)
+![environment!](/assets/photos/meh_photos/too_many_scenery.png)
 
 *It might be useful for someone in the field to understand the typical environment A mushroom calls home, but it is not useful for image classification*
 
-![environment!](/Mushroom_Classifier/assets/photos/meh_photos/scenery.jpg)
+![environment!](/assets/photos/meh_photos/scenery.jpg)
 
 *Although we want photos taken at a variety of distances, this might be a bit TOO far...*
 
-![too far!](/Mushroom_Classifier/assets/photos/meh_photos/too_far.jpg)
+![too far!](/assets/photos/meh_photos/too_far.jpg)
 
 ## Training
 
@@ -182,17 +182,17 @@ To kill it, simple run a command like:
 
 ### MobileNetV3
 
-![!phase 1](/Mushroom_Classifier/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_phase_1_.png)
+![!phase 1](/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_phase_1_.png)
 
-![!phase 2](/Mushroom_Classifier/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_phase_2_.png)
+![!phase 2](/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_phase_2_.png)
 
-![!phase 3](/Mushroom_Classifier/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_phase_3_.png)
+![!phase 3](/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_phase_3_.png)
 
 ### ResNet50_V2
 
-![!class training](/Mushroom_Classifier/assets/photos/training_performance/mobileCelia_0_0_1_ResNet50V2_class_labels_lr_1e-3.png)
+![!class training](/assets/photos/training_performance/mobileCelia_0_0_1_ResNet50V2_class_labels_lr_1e-3.png)
 
-![!last 2 layers](/Mushroom_Classifier/assets/photos/training_performance/mobileCelia_0_0_1_ResNet50V2_last_2_layers_lr_1e-4.png)
+![!last 2 layers](/assets/photos/training_performance/mobileCelia_0_0_1_ResNet50V2_last_2_layers_lr_1e-4.png)
 
 ### Xception
 
