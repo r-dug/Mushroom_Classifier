@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import json
+import gc
 
 # DATES AND TIMES... DUH
 from datetime import datetime
@@ -23,6 +24,7 @@ from tensorflow.keras.layers import Input
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 import tensorflow as tf
 
+gc.collect()
 # device check. train on gpu.
 gpus = tf.config.list_physical_devices('GPU')
 print(f"GPUs: {gpus} ")
@@ -45,7 +47,7 @@ except RuntimeError as e:
 # callback configurations
 plateau = ReduceLROnPlateau(    monitor="val_loss", 
                                 mode="min", 
-                                patience=5,
+                                patience=3,
                                 min_lr=1e-7, 
                                 factor=0.5, 
                                 min_delta=0.01,
@@ -59,13 +61,15 @@ checkpointer = ModelCheckpoint( filepath=CHECKPOINT_PATH,
                                 save_weights_only=True)
 
 convergence = EarlyStopping(    monitor="val_accuracy",
-                                min_delta=1e-4,
-                                patience=7,
+                                min_delta=0.001,
+                                patience=5,
                                 verbose=1,
                                 mode="max",
                                 baseline=None,
                                 restore_best_weights=True,
-                                start_from_epoch=10)
+                                start_from_epoch=5)
+
+# tensorboard = TensorBoard(log_dir=LOG_DIR, profile_batch=(2, 5), write_graph=False)  # Profile batches 2-5
 
 # datasets
 train_data, val_data = image_dataset_from_directory(  DATASET_DIR,
@@ -75,7 +79,9 @@ train_data, val_data = image_dataset_from_directory(  DATASET_DIR,
                                             validation_split = 0.25,
                                             subset = 'both',
                                             crop_to_aspect_ratio = True,
-                                            seed=42
+                                            shuffle=True,
+                                            seed=42,
+                                            batch_size= BATCH_SIZE
                                         )
 
 class_names = train_data.class_names
@@ -104,6 +110,7 @@ if BASE_MODEL == "ResNet50V2":
 train_data = train_data.map(
     lambda x, y: (augmenter(x, training=True), y),
     )
+
 if DEBUG_DATA == True:
     training_util.show_image_samples(train_data, class_names)
     training_util.show_image_samples(val_data, class_names)
@@ -129,7 +136,7 @@ elif BASE_MODEL == "ConvNeXtTiny":
 
 model = Model(inputs=base.input, outputs=x)
 if DEBUG_MODEL == True:
-    training_util.show_summary(base=base, with_top=None, model=model)
+    training_util.show_summary(base=base, model=model, with_top=None )
 
 # let's just be sure to save the config to JSON for future investigation.
 json_config = model.to_json()
@@ -146,29 +153,28 @@ with open(MODEL_JSON_PATH, 'w') as f:
 for layer in model.layers:
     layer.trainable = False
 
-
 for layer in model.layers[PHASE_1_DEPTH:]:
     layer.trainable = True
 
+gc.collect()
 model.compile(  optimizer=Adam(learning_rate=1e-3), 
                 loss=tf.keras.losses.CategoricalCrossentropy(), 
                 metrics=['accuracy'])
 
 training_results = model.fit(   train_data, 
-                                epochs=50, 
+                                epochs=10, 
                                 verbose=1,
                                 callbacks=[plateau, checkpointer, convergence],
                                 validation_data=val_data,
                                 batch_size=BATCH_SIZE
                                 )
 try:
-    training_util.plot_performance(phase="phase_1_", 
-                                   MODEL=MODEL_NAME,
-                                   training_results=training_results)
     model.save(TF_MODEL_PATH)
+    training_util.plot_performance(phase="phase_1_", 
+                                   training_results=training_results)
 except Exception as e:
    print(e)
-
+gc.collect()
 # Phase 2 training
 for layer in model.layers[PHASE_2_DEPTH:]:
     layer.trainable = True
@@ -185,12 +191,11 @@ training_results = model.fit(   train_data,
                                 )
 try:
     training_util.plot_performance(phase="phase_2_", 
-                                   MODEL=MODEL_NAME,
                                    training_results=training_results)
     model.save(TF_MODEL_PATH)
 except Exception as e:
    print(e)
-
+gc.collect()
 #  phase 3 training
 for layer in model.layers[PHASE_3_DEPTH:]:
     layer.trainable = True
@@ -200,7 +205,7 @@ model.compile(  optimizer=Adam(learning_rate=1e-4),
                 loss=tf.keras.losses.CategoricalCrossentropy(), 
                 metrics=['accuracy'])
 training_results = model.fit(   train_data, 
-                                epochs=100, 
+                                epochs=50, 
                                 verbose=1,
                                 callbacks=[plateau, checkpointer, convergence],
                                 validation_data=val_data,
@@ -209,7 +214,6 @@ training_results = model.fit(   train_data,
 
 try:
     training_util.plot_performance(phase="phase_3_", 
-                                   MODEL=MODEL_NAME,
                                    training_results=training_results)
     model.save(TF_MODEL_PATH)
 except Exception as e:

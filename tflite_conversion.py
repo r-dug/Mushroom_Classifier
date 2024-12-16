@@ -9,7 +9,7 @@ def generate_representative_data(X_data):
           sample = X_data[i]
           yield {'input_1': sample}
 def convert()->None:
-    pre_model = tf.keras.models.load_model(f"{TF_MODEL_PATH}.keras")
+    pre_model = tf.keras.models.load_model(f"{TF_MODEL_PATH}")
 
     # Convert the model to TFLite
     converter = tf.lite.TFLiteConverter.from_keras_model(pre_model)
@@ -25,7 +25,7 @@ def convert()->None:
     tflite_model = converter.convert()
 
     # Save the converted model
-    with open(f"{TFLITE_MODEL_PATH}.tflite", "wb") as f:
+    with open(f"{TFLITE_MODEL_PATH}", "wb") as f:
         f.write(tflite_model)
         print("tflite model written")
 if __name__ == "__main__":

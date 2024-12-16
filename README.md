@@ -25,13 +25,13 @@ If you have a CUDA capable GPU (HIGHLY recommended), follow the [CUDA installati
 
 ### Hugging Face: direct
 
-From Hugging Face, I did use a dataset that I found insufficient. Although I would like to site the source, I can not locate it at this time and removed it from my file system to conserve space.
+From Hugging Face, I found a mushroom image dataset but it was insufficient. 
 
 ### iNaturalist: curated
 
-I used the following [iNaturalist database information](https://github.com/inaturalist/inaturalist-open-data/tree/main) to compile a more robust dataset to test training, based on the hypothesis that the previously mentioned Hugging Face dataset was insufficient. I will not belabor the details of how exactly I went about this, but reach out directly if you would like to discuss ideas. It is important to note, however, that there are only two taxonomic subcategories of the kingdom of fungi I focused on - Division [Basidiomycota](https://en.wikipedia.org/wiki/Basidiomycota) and Phylum [Ascomycota](https://en.wikipedia.org/wiki/Ascomycota)
+I used the following [iNaturalist database information](https://github.com/inaturalist/inaturalist-open-data/tree/main) to compile a more robust dataset to test training, based on the hypothesis that the Hugging Face dataset was insufficient. I will not belabor the details of how exactly I went about this, but reach out directly if you would like to discuss ideas. It is important to note, however, that there are only two taxonomic subcategories of the kingdom of fungi I focused on - Division [Basidiomycota](https://en.wikipedia.org/wiki/Basidiomycota) and Phylum [Ascomycota](https://en.wikipedia.org/wiki/Ascomycota). The iNaturalist GitHub site details steps for structuring the csv files into a PostreSQL database. Queries were fairly easy to write to return a table of N unique photos of M species. I saved this table as a csv, to iterate over and compile a dataset of sufficient size.
 
-It is critical in supervised machine learning that the labeled data is not only sufficient in quantity, but also in quality. I have not yet come up with an automated approach to using iNaturalist's open-source data to ensuring the quality of the images. Although I only used "research" quality observations, some of the photos associated with those observations have issues shown in the following examples. It was tedious and time-consuming to manually look through the photos and delete offending photos, but I am considering an approach to automate this process of pruning the data with decent classifier.
+It is critical in supervised machine learning that the labeled data is not only sufficient in quantity, but also in quality. I have not yet come up with an automated approach to using iNaturalist's open-source data to ensuring the quality of the images. Although I only used "research" quality observations, some of the photos associated with those observations have issues shown in the following examples. I used the DBSCAN clustering algorithm to iterate all of the image classes and remove "noisy" photos.
 
 *A finger is obstructing the view of the mushroom to too substantial a degree*
 
@@ -45,7 +45,7 @@ It is critical in supervised machine learning that the labeled data is not only 
 
 ![microscopy!](/assets/photos/meh_photos/microsopy.jpg)
 
-*this was a common occurrence...*
+*the sort of variety in the dataset*
 
 ![environment!](/assets/photos/meh_photos/too_many_scenery.png)
 
@@ -91,82 +91,30 @@ Below are links to documentation for the tensorflow data augmentation layers I u
 
 ### Callbacks
 
-Callbacks are used in training to either preserve progress or halt training in the event of plateaus. Tensorflow has implementations for various callbacks. Below are the ones I used, linking the tensorflow documentation, a description (from tensorflow) of their general purpose, and my reasoning for setting the arguments as I did.
+Callbacks are used in training to either preserve progress or halt training in the event of plateaus. Tensorflow has implementations for various callbacks. Below are the ones I used, linking the tensorflow documentation, and a description (from tensorflow) of their general purpose.
 
 - [ReduceLROnPlateau](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ReduceLROnPlateau)
 
     > Reduce learning rate when a metric has stopped improving.
-
-    - monitor="val_loss" 
-    Validation in training is used to assess how well training generalizes to the data 
-    - mode="min"
-
-    - patience=5
-
-    - min_lr=1e-7
-
-    - factor=0.3
-
-    - min_delta=0.01
 
 
 - [ModelCheckpoint](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint)
 
     > Callback to save the Keras model or model weights at some frequency.
 
-    - filepath=CHECKPOINT_PATH
-
-    - verbose=1
-
-    - save_best_only=True
-
-    - monitor="val_accuracy"
-
-    - mode="max"
-
-    - save_weights_only=True
-
 
 - [EarlyStopping](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/EarlyStopping)
 
     > Stop training when a monitored metric has stopped improving.
 
-    - monitor="val_accuracy"
-
-    - min_delta=0e-5
-
-    - patience=7
-
-    - verbose=1
-
-    - mode="max"
-
-    - baseline=None
-
-    - restore_best_weights=True
-
-    - start_from_epoch=15
-
 
 ### Training Steps
 
-1. Class labels: output layer
-
-    - This step is used to retrain the final output layer of the neural network.
-
-    - The rest of the network is used as a feature detector. The parameters of these layers are not updated during training; i.e. they are "frozen".
-
-2. Additional fully connected layer
-
-
-
-3. Deeper hidden layers 
-
-
+Convolution blocks are used as feature detectors. When tuning an existing classification model, it can be useful to use the layers already trained to encode features and assign class labels to the new image classes. After that step, the models deeper layers can be trained on the same data to further refine feature detection and improve model performance.
 
 ### Running on a GPU
 
-A lot of the time, memory can critically impact training. to check the memory consumption on your GPU, run the command 'nvidia-smi'. look for processes consuming a lot of memory (like training a deep neural network *wink wink*). These processes can remain in memory for the GPU. Fortunately, a very simple troubleshooting step is to simply kill the process. In linux, the command to kill the process by its process Id (listed in the nvidia-smi output) is 'kill -9 PID' where PID is the process id; for example:
+The hardware available can critically impact training speed. In some cases, memory limitations can prohibit the use, much less the training of larger models. Furthermore, even a model you could conceivably train on with your hardware could fail because of memory consumption. If a process utilizing gpu does not exit gracefully, the memory might not free. To check the memory consumption on your GPU, run the command 'nvidia-smi'. look for processes consuming a lot of memory (like training a deep neural network *wink wink*). A very simple troubleshooting step is to simply kill the process. In linux, the command to kill the process by its process Id (listed in the nvidia-smi output) is 'kill -9 PID' where PID is the process id; for example:
 Below is the return of an nvidia-smi command
 
 ![nvidia-smi return!](/assets/photos/smi_return.png)
