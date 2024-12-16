@@ -124,17 +124,14 @@ Below are links to documentation for the tensorflow data augmentation layers I u
 Callbacks are used in training to either preserve progress or halt training in the event of plateaus. Tensorflow has implementations for various callbacks. Below are the ones I used, linking the tensorflow documentation, and a description (from tensorflow) of their general purpose.
 
 - [ReduceLROnPlateau](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ReduceLROnPlateau)
-
       - Reduce learning rate when a metric has stopped improving.
 
 
 - [ModelCheckpoint](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint)
-
       - Callback to save the Keras model or model weights at some frequency.
 
 
 - [EarlyStopping](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/EarlyStopping)
-
       - Stop training when a monitored metric has stopped improving.
 
 
