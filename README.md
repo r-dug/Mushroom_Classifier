@@ -60,21 +60,27 @@ I used the following [iNaturalist database information](https://github.com/inatu
 It is critical in supervised machine learning that the labeled data is not only sufficient in quantity, but also in quality. Although I only used "research" quality observations, some of the photos associated with those observations have issues shown in the following examples. To address the noise, I used the [DBSCAN clustering algorithm](https://scikit-learn.org/dev/modules/generated/sklearn.cluster.DBSCAN.html) found here to iterate over all of the image class directories and remove "anomolous" photos.
 
 ![Finger obstruction!](/assets/photos/meh_photos/finger.jpg)
+
 *A finger is obstructing the view of the mushroom to too substantial a degree.*
 
 ![Finger obstruction!](/assets/photos/meh_photos/dataset_corruption.png)
+
 *This observer posted a bunch of photos of a person examining the mushroom.*
 
 ![microscopy!](/assets/photos/meh_photos/microsopy.jpg)
+
 *Although potentially VERY useful for other purposes, microscopy photos wouldn't help classify images taken on a phone.*
 
 ![environment!](/assets/photos/meh_photos/too_many_scenery.png)
+
 *The sort of variety in the dataset*
 
 ![environment!](/assets/photos/meh_photos/scenery.jpg)
+
 *It might be useful for someone in the field to understand the typical environment A mushroom calls home, but it is not useful for image classification*
 
 ![too far!](/assets/photos/meh_photos/too_far.jpg)
+
 *Although we want photos taken at a variety of distances, this might be a bit TOO far...*
 
 **NOTE:** After some experimentation, I found some parameters to use with DBSCAN that were effective for this data. Running the algorithm over all classes ended up removing about 20,000 images from the dataset (of roughly 210,000 examples then.
