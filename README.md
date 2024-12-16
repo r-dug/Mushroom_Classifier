@@ -125,17 +125,17 @@ Callbacks are used in training to either preserve progress or halt training in t
 
 - [ReduceLROnPlateau](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ReduceLROnPlateau)
 
-      > Reduce learning rate when a metric has stopped improving.
+      - Reduce learning rate when a metric has stopped improving.
 
 
 - [ModelCheckpoint](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint)
 
-      > Callback to save the Keras model or model weights at some frequency.
+      - Callback to save the Keras model or model weights at some frequency.
 
 
 - [EarlyStopping](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/EarlyStopping)
 
-      > Stop training when a monitored metric has stopped improving.
+      - Stop training when a monitored metric has stopped improving.
 
 
 ### Training Steps
