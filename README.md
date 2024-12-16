@@ -146,9 +146,15 @@ Convolution blocks are used as feature detectors. When tuning an existing classi
 
 ![!phase 1](/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_phase_1_.png)
 
+- No overfitting. That's nice.
+
 ![!phase 2](/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_phase_2_.png)
 
+- Validation accuracy seems to plateau before training accuracy and the model seems to be overfitting (not generalizing well)
+
 ![!phase 3](/assets/photos/training_performance/mobileCelia_0_0_1_MobileNetV3_phase_3_.png)
+
+- Overfitting continues
 
 ### ResNet50_V2
 
