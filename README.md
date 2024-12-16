@@ -1,5 +1,18 @@
 # Mobile Mushroom Classifier
 
+<a href="https://www.python.org/">
+  <img src="https://www.moosoft.com/wp-content/uploads/2021/07/Python.png" alt="HTML" width="75" height="75">
+</a>
+
+<a href="https://www.tensorflow.org/">
+  <img src="https://miro.medium.com/v2/resize:fit:256/1*cKG1LJvVTaWqSkYSyVqtsQ.png" alt="Tensorflow" width="75" height="75">
+</a>
+
+<a href="https://numpy.org/">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/NumPy_logo_2020.svg" alt="Numpy" width="115" height="75">
+</a>
+
+
 ## Overview
 The primary goal of this project is to create an image classification model for species of mushrooms, which can run locally on a mobile device. However, much of what is contained in this repository would easily transfer to creating other image classifiers, such as notes on curating a dataset and training a model with Tensorflow.
 
