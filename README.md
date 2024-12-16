@@ -63,21 +63,26 @@ It is critical in supervised machine learning that the labeled data is not only 
 
 *A finger is obstructing the view of the mushroom to too substantial a degree.*
 
+
 ![Finger obstruction!](/assets/photos/meh_photos/dataset_corruption.png)
 
 *This observer posted a bunch of photos of a person examining the mushroom.*
+
 
 ![microscopy!](/assets/photos/meh_photos/microsopy.jpg)
 
 *Although potentially VERY useful for other purposes, microscopy photos wouldn't help classify images taken on a phone.*
 
+
 ![environment!](/assets/photos/meh_photos/too_many_scenery.png)
 
 *The sort of variety in the dataset*
 
+
 ![environment!](/assets/photos/meh_photos/scenery.jpg)
 
 *It might be useful for someone in the field to understand the typical environment A mushroom calls home, but it is not useful for image classification*
+
 
 ![too far!](/assets/photos/meh_photos/too_far.jpg)
 
