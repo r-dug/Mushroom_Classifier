@@ -101,7 +101,7 @@ It is critical in supervised machine learning that the labeled data is not only 
 
 *Although we want photos taken at a variety of distances, this might be a bit TOO far...*
 
-  **NOTE:** After some experimentation, I found some parameters to use with DBSCAN that were effective for this data. Running the algorithm over all classes ended up removing about 20,000 images from the dataset.
+  **NOTE:** After some experimentation, I found some parameters to use with DBSCAN that were effective for this data. Running the algorithm over all classes ended up removing about 20,000 images from the dataset. A cursory survery of several classes revealed far fewer anomolous images, though I'm still uncertain about how I might ensure, algorithmically, all anomolies are pruned without removing relevant photos.
 
 
 ## Training
