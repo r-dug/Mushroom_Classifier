@@ -79,12 +79,11 @@ def create_MobileV3(n):
     # GlobalAveragePooling2D, Conv2D, Activation, Dropout, Flatten 
     x = base.output
     x = GlobalAveragePooling2D(name='final_pool_avg', trainable=True, data_format='channels_last', keepdims=True)(x)
-    x = Conv2D( trainable=True,filters=1200, kernel_size=(1,1), strides=(1,1), padding='same', data_format='channels_last', dilation_rate= (1, 1), groups= 1, activation = 'linear', use_bias= True,)(x)
-    x = Activation(name='activation_20', trainable = True, activation='hard_silu')(x)
-    x = Dropout(rate=0.3)(x)
-    x = Conv2D( trainable=True,filters=n, kernel_size=(1,1), strides=(1,1), padding='same', data_format='channels_last', dilation_rate= (1, 1), groups= 1, activation = 'linear', use_bias= True,)(x)
+    x = Conv2D( trainable=True,filters=1200, kernel_size=(1,1), strides=(1,1), padding='same', data_format='channels_last', dilation_rate= (1, 1), groups= 1, activation = 'hard_silu', use_bias= True, kernel_regularizer=tf.keras.regularizers.L2(0.001), bias_regularizer='l2')(x)
+    x = Dropout(rate=0.5)(x)
+    x = Conv2D( trainable=True, filters=n, kernel_size=(1,1), strides=(1,1), padding='same', data_format='channels_last', dilation_rate= (1, 1), groups= 1, activation = 'linear', use_bias= True, kernel_regularizer=tf.keras.regularizers.L2(0.001), bias_regularizer='l2')(x)
     x = Flatten(data_format='channels_last')(x)
-    x = Activation(name='softmax_output',activation='softmax')(x)
+    x = Activation(name='softmax_output', activation='softmax')(x)
     return x, base
 
 def show_image_samples(ds:tf.data.Dataset, class_names:list[str]):

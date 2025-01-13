@@ -76,7 +76,7 @@ train_data, val_data = image_dataset_from_directory(  DATASET_DIR,
                                             labels = 'inferred',
                                             label_mode = 'categorical',
                                             image_size=IMG_SIZE,
-                                            validation_split = 0.25,
+                                            validation_split = 0.2,
                                             subset = 'both',
                                             crop_to_aspect_ratio = True,
                                             shuffle=True,
@@ -101,11 +101,11 @@ if DEBUG_DATA == True:
 rescale = training_util.rescaler()
 augmenter = training_util.data_augmenter()
 
-if BASE_MODEL == "ResNet50V2": 
-    augmenter.add(rescale.layers[0])
-    val_data = train_data.map(
-        lambda x, y: (rescale(x, training=True), y),
-    )
+if DEBUG_DATA == True:
+    training_util.show_image_samples(train_data, class_names)
+    training_util.show_image_samples(val_data, class_names)
+
+
 
 train_data = train_data.map(
     lambda x, y: (augmenter(x, training=True), y),
